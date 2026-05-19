@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: worldwide-predictions
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "streamlit run ui.py --server.port $PORT --server.headless true"
+
+  - type: cron
+    name: daily-job
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    schedule: "0 8 * * *"   # runs daily at 08:00 UTC
+    command: "python daily_job.py"
